@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="height: 80vh;">
+    <div class="col-md-5">
+        <div class="text-center mb-4">
+            <h1 class="display-1">👔</h1>
+            <h3 class="fw-bold">Virtual Wardrobe</h3>
+            <p class="text-muted">Login to access your closet</p>
+        </div>
+
+        <div class="card-custom p-4 p-md-5">
+            <h4 class="fw-bold mb-4">Welcome Back!</h4>
+            
+            <form action="{{ url_for('login') }}" method="POST">
+                <div class="mb-3">
+                    <label class="form-label fw-bold small text-muted">USERNAME</label>
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-muted">PASSWORD</label>
+                    <input type="password" name="password" class="form-control" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100 py-3 rounded-4 mb-3">
+                    Login
+                </button>
+            </form>
+
+            <div class="text-center mt-3">
+                <span class="text-muted">Don't have an account? </span>
+                <a href="{{ url_for('register') }}" class="fw-bold text-primary text-decoration-none">Register Here</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

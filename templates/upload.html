@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold m-0"><i class="fa-solid fa-cloud-arrow-up text-primary"></i> Upload Clothes</h4>
+        </div>
+
+        <div class="card-custom p-4 bg-white shadow-sm rounded-4">
+            <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+                
+                <div class="mb-4 text-center border rounded-4 p-4 bg-light position-relative" style="border: 2px dashed #cbd5e1 !important;">
+                    <i class="fa-solid fa-camera text-secondary mb-2" style="font-size: 30px;"></i>
+                    <h6 class="fw-bold text-dark">Tap to Upload Image</h6>
+                    <input type="file" name="file" class="position-absolute top-0 start-0 w-100 h-100 opacity-0" required style="cursor: pointer;">
+                </div>
+
+                <div class="row g-2 mb-3">
+                    <div class="col-6">
+                        <label class="small text-muted fw-bold ms-1">CATEGORY</label>
+                        <select name="category" class="form-select border-1 rounded-3 py-2 bg-light">
+                            <option value="Auto">🤖 Auto (AI)</option>
+                            <option value="Top">👕 Top</option>
+                            <option value="Pant">👖 Pant</option>
+                            <option value="Shoe">👟 Shoe</option>
+                            <option value="Accessory">🕶️ Accessory</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label class="small text-muted fw-bold ms-1">COLOR</label>
+                        <select name="color" class="form-select border-1 rounded-3 py-2 bg-light">
+                            <option value="Auto">🤖 Auto (AI)</option>
+                            <option value="Black">⚫ Black</option>
+                            <option value="White">⚪ White</option>
+                            <option value="Blue">🔵 Blue</option>
+                            <option value="Red">🔴 Red</option>
+                            <option value="Green">🟢 Green</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="small text-muted fw-bold ms-1">SEASON</label>
+                    <select name="season" class="form-select border-1 rounded-3 py-2">
+                        <option value="All">🌤️ Any Season</option>
+                        <option value="Summer">☀️ Summer</option>
+                        <option value="Winter">❄️ Winter</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="small text-muted fw-bold ms-1">OCCASION</label>
+                    <select name="occasion" class="form-select border-1 rounded-3 py-2">
+                        <option value="Casual">🧢 Casual</option>
+                        <option value="Formal">💼 Formal</option>
+                        <option value="Party">🎉 Party</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-3 rounded-4 fw-bold shadow-sm">Add to Wardrobe</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

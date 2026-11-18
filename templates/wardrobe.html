@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold m-0">My Wardrobe</h4>
+        <small class="text-muted">Total Items: {{ items|length }}</small>
+    </div>
+    <a href="{{ url_for('upload') }}" class="btn btn-dark rounded-pill px-4">
+        <i class="fa-solid fa-plus me-1"></i> Add
+    </a>
+</div>
+
+<div class="d-flex gap-2 mb-4 overflow-auto pb-2" id="filter-buttons">
+    <button class="btn btn-dark rounded-pill px-4" onclick="filterItems('All')">All</button>
+    <button class="btn btn-outline-dark rounded-pill px-3" onclick="filterItems('Top')">Tops</button>
+    <button class="btn btn-outline-dark rounded-pill px-3" onclick="filterItems('Pant')">Pants</button>
+    <button class="btn btn-outline-dark rounded-pill px-3" onclick="filterItems('Shoe')">Shoes</button>
+    <button class="btn btn-outline-dark rounded-pill px-3" onclick="filterItems('Accessory')">Accessories</button>
+</div>
+
+<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="wardrobe-grid">
+    {% for item in items %}
+    <div class="col wardrobe-item" data-category="{{ item.category }}">
+        <div class="card-custom h-100 position-relative shadow-sm border-0">
+            
+            <img src="{{ url_for('static', filename='uploads/' + item.image_path) }}" 
+                 class="card-img-top rounded-top-4" 
+                 style="height: 180px; object-fit: cover;" 
+                 alt="{{ item.category }}"
+                 onerror="this.onerror=null; this.src='https://via.placeholder.com/150?text=No+Image';">
+            
+            <span class="position-absolute top-0 start-0 m-2 badge bg-white text-dark shadow-sm">
+                {{ item.season }}
+            </span>
+
+            <div class="card-body p-2">
+                <h6 class="fw-bold text-capitalize mb-1">{{ item.category }}</h6>
+                <div class="d-flex justify-content-between align-items-center">
+                    <small class="text-muted">{{ item.color }}</small>
+                    <span class="badge bg-light text-secondary border">{{ item.occasion }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="col-12 text-center py-5 w-100">
+        <div class="p-5 bg-white rounded-4 shadow-sm">
+            <i class="fa-solid fa-shirt text-muted mb-3" style="font-size: 40px;"></i>
+            <h5>Wardrobe is Empty!</h5>
+            <p class="text-muted">Start adding your favorite clothes.</p>
+            <a href="{{ url_for('upload') }}" class="btn btn-primary mt-3">Upload First Cloth</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+function filterItems(category) {
+    // 1. Change Button Colors (Active State)
+    let buttons = document.querySelectorAll('#filter-buttons button');
+    buttons.forEach(btn => {
+        btn.classList.remove('btn-dark');
+        btn.classList.add('btn-outline-dark');
+        
+        if(btn.innerText.includes(category) || (category === 'All' && btn.innerText === 'All')) {
+            btn.classList.remove('btn-outline-dark');
+            btn.classList.add('btn-dark');
+        }
+    });
+
+    // 2. Hide/Show Items based on category
+    let items = document.querySelectorAll('.wardrobe-item');
+    items.forEach(item => {
+        if (category === 'All' || item.dataset.category === category) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+</script>
+{% endblock %}
