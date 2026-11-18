@@ -32,20 +32,25 @@ An AI-powered web app for managing your wardrobe and getting outfit suggestions.
 
 ```
 Virtual-Wardrobe/
-├── README.md
-└── virtual_wardrobe/
-    └── virtual_wardrobe/
-        ├── app.py              # Routes and main application logic
-        ├── config.py           # Flask, database and upload folder setup
-        ├── models.py           # User and Cloth database models
-        ├── requirements.txt    # Python dependencies
-        ├── database/           # SQLite database (wardrobe.db)
-        ├── dataset/            # Sample / training images
-        ├── utils/
-        │   └── image_processing.py   # analyze_image(): category + color detection
-        ├── templates/          # HTML pages (login, register, wardrobe, upload, profile, recommend)
-        └── static/
-            └── uploads/        # Uploaded clothing images
+├── app.py                  # Routes and main application logic
+├── config.py               # Flask, database and upload folder setup
+├── models.py               # User and Cloth database models
+├── requirements.txt        # Python dependencies
+├── dataset/                # Training images (accessories, pants, shoes, tops)
+├── training/
+│   ├── preprocess.py
+│   └── train_model.py      # Trains the category model and saves models/recommender_model.h5
+├── models/                 # Trained model (created by train_model.py)
+├── utils/
+│   ├── image_processing.py # analyze_image(): category + color detection
+│   ├── recommend.py
+│   └── weather_api.py
+├── templates/              # HTML pages (login, register, wardrobe, upload, profile, recommend)
+├── static/
+│   ├── css/
+│   ├── js/
+│   └── uploads/            # Uploaded clothing images (created automatically)
+└── database/               # SQLite database (created automatically)
 ```
 
 ---
@@ -56,7 +61,7 @@ Virtual-Wardrobe/
 
 ```bash
 git clone https://github.com/MariaRejo/Virtual-Wardrobe.git
-cd Virtual-Wardrobe/virtual_wardrobe/virtual_wardrobe
+cd Virtual-Wardrobe
 ```
 
 ### 2. Create a virtual environment (recommended)
@@ -77,13 +82,27 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 4. Run the app
+### 4. Train the category model
+
+The AI model is not stored in the repository. Create it once from the images in `dataset/`:
+
+```bash
+python training/train_model.py
+```
+
+This saves `models/recommender_model.h5`. Without it, choose the category manually when uploading.
+
+### 5. Run the app
+
+Run it from the project folder (the one that contains `app.py`):
 
 ```bash
 python app.py
 ```
 
 Open **http://127.0.0.1:5000** in your browser. The database and upload folders are created automatically on first run.
+
+Optional: set a `SECRET_KEY` environment variable to a long random text. If it is not set, a temporary key is used and users are logged out each time the app restarts.
 
 ---
 
@@ -105,8 +124,8 @@ Open **http://127.0.0.1:5000** in your browser. The database and upload folders 
 - [ ] Real-time weather integration (currently a placeholder value)
 - [ ] Color-coordination logic for smarter outfit matching
 - [ ] Multiple outfit suggestions per request
-- [ ] Password hashing and secret key from environment variables
-- [ ] Image validation and unique filenames on upload
+- [x] Password hashing and secret key from environment variables
+- [x] Image validation and unique filenames on upload
 - [ ] Delete / edit clothing items
 - [ ] Deployment guide (Render / Railway / PythonAnywhere)
 
@@ -122,6 +141,6 @@ Contributions, issues and feature requests are welcome. Fork the repo, create a 
 
 **Maria Rejo J**
 
-GitHub:https://github.com/MariaRejo
+GitHub: https://github.com/MariaRejo
 
 Built with Python, Flask and TensorFlow.
